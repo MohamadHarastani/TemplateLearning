@@ -1,0 +1,4 @@
+conda create -y -n TemplateLearning python=3.9
+conda activate TemplateLearning
+pip install ProDy tqdm mrcfile scikit-image pyfftw pip install python-parakeet==0.4.5 h5py==3.8.0
+
