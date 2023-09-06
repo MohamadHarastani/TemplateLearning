@@ -27,6 +27,6 @@ for combination in itertools.product(total_doses, tilt_steps, start_angles, ice_
     config_dir = '{}/{}'.format(output_path, snowball_id)
     os.mkdir(config_dir)
     config_path = '{}/config.yaml'.format(config_dir)
-    generate_config(eletrons_per_angstrom, dimentions, phase_plates, snowball_file, start_angle, tilt_step, ice_density,
-                    config_path)
+    generate_config(eletrons_per_angstrom, dimentions, phase_plates, defocus, snowball_file, start_angle, tilt_step,
+                    ice_density, config_path)
     snowball_id += 1

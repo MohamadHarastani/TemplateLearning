@@ -2,6 +2,7 @@ def generate_config(
         electrons_per_angstrom=2,
         dimentions=(4096, 4096, 1024),
         phase_plates=False,
+        defocus=-2.5,
         snowball='snowballs/0/atomic_angposfile.txt',
         start_angle=-60,
         step_angle=2,
@@ -30,7 +31,7 @@ def generate_config(
     config += "    - {}\n".format(0)
     config += "    pixel_size: {}\n".format(1)
     config += "  lens:\n"
-    config += "    c_10: {}\n".format(-45000.0)
+    config += "    c_10: {}\n".format(defocus*10000)
     config += "    c_12: {}\n".format(0)
     config += "    c_21: {}\n".format(0)
     config += "    c_23: {}\n".format(0)
