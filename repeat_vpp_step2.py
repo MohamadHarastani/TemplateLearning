@@ -58,7 +58,7 @@ def sortTiltSeries(tsfn, tltfn, output):
     os.system(command)
 
 
-simulation_list = glob.glob('parakeet/*')
+simulation_list = glob.glob('vpp/*')
 parent_dir = os.path.abspath(os.curdir)
 
 print(simulation_list)
