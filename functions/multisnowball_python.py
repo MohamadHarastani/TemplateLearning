@@ -27,7 +27,7 @@
 
 import mrcfile
 from scipy.spatial.transform import Rotation
-from scipy.ndimage import binary_dilation
+from scipy.ndimage import binary_dilation, binary_closing
 import scipy
 from skimage.morphology import ball
 import numpy as np
@@ -202,7 +202,10 @@ def snowball(mols, dim, frequencies, Iterations, coordinate_table, angle_table, 
                 rotated_binary = (rotated_binary > gray_level_threshold).astype(np.int8)
                 # create the band-like shape around the molecule
                 out_layer = binary_dilation(rotated_binary, ball(insersion_distances[1]))
-                in_layer = binary_dilation(rotated_binary, ball(insersion_distances[0]))
+                if insersion_distances[0] == 0:
+                    in_layer = binary_closing(rotated_binary, ball(insersion_distances[1]))
+                else:
+                    in_layer = binary_dilation(rotated_binary, ball(insersion_distances[0]))
                 # -100 works as a penalty inside the band that should not touch any white space
                 template = out_layer - 100 * in_layer
                 # create a binary big volume
@@ -262,7 +265,6 @@ def snowball(mols, dim, frequencies, Iterations, coordinate_table, angle_table, 
                     coordinates = np.concatenate((coordinates, coordinates_prev), axis=0)
                 except:
                     coordinates = np.vstack((coordinates, coordinates_prev))
-
 
             np.savetxt(angles_file, angles, delimiter=',', fmt='%f', header='a_1,a_2,a_3')
             np.savetxt(coordinates_file, coordinates, delimiter=',', fmt='%d', header='c_1,c_2,c_3')
