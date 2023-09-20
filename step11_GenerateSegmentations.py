@@ -13,6 +13,27 @@ snowball_size = (256, 256, 64)
 sigma = 2
 gray_level_threshold = 100
 #
+adjust_to_different_size = True
+output_size = (316, 316, 79)
+
+
+def resize(data, x, y, z):
+    """Resize the data.
+
+    @param data: input data.
+    @param x: resized dimension x.
+    @param y: resized dimension y.
+    @param z: resized dimension z.
+
+    @return: resized data.
+    """
+    s = data.shape
+    from scipy import mgrid, array
+    from scipy.ndimage import map_coordinates
+    grid = mgrid[0:s[0] - 1:x * 1j, 0:s[1] - 1:y * 1j, 0:s[2] - 1:z * 1j]
+    d = map_coordinates(data, grid, order=0)
+    return d
+
 
 simulation_list = glob.glob('parakeet/*')
 templates_list = [os.path.basename(template)[:-4] for template in glob.glob('templates/*.pdb')]
@@ -68,7 +89,13 @@ for simulation in tqdm.tqdm(simulation_list):
                 rotated_binary = (rotated_binary > gray_level_threshold).astype(np.int8)
                 place(big_volume, rotated_molecule, position)
 
+    # adjust the sampling rate
+    if adjust_to_different_size:
+        x, y, z = output_size
+        big_volume = resize(big_volume, x, y, z)
+        big_volume = (big_volume > gray_level_threshold).astype(np.int8)
     # save the output volume
+
     with mrcfile.new(output_volume) as mrc:
         # transposing the data to save mrc file in the right way
         # mrc.set_data(-outVolume)
