@@ -1,0 +1,4 @@
+# to coarse grain the templates
+
+conda activate TemplateLearning
+prody select "name CA P" 6y2l.cif -o 6y2l_atoms.pdb
