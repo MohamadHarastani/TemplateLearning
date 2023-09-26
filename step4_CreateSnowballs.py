@@ -7,14 +7,15 @@ import random
 # paramters to set
 number_of_snowballs = 48
 dimentions = ['256', '256', '64']
-iterations = 5
-insersion_distances = [0, 1]
+iterations = 20
+insersion_distances = [-1, 0]
 sigma = 2
 gray_level_threshold = 100
 threads = None
+grind = True
 
 # number of distractors for each template
-density_ratio = 3  # set it to 1 if your template is small, 2 or more if the tempalte is big
+density_ratio = 5  # set it to 1 if your template is small, 2 or more if the tempalte is big
 #
 
 templates = list(glob.glob('volumes/templates/*.mrc'))
@@ -51,9 +52,9 @@ for snowball_number in tqdm.tqdm(range(number_of_snowballs)):
     frequencies = list(numpy.array(molecules_list)[:, 1])
     arg = "python functions/multisnowball_python.py --mol '{}' --dim '{}' --frequencies '{}' --iterations {}" \
           " --coordinate_table {} --angle_table {} --output_volume {} --insersion_distances '{}' --sigma {}" \
-          " --gray_level_threshold {} --threads {}".format(molecules, dimentions, frequencies, iterations,
+          " --gray_level_threshold {} --threads {} --grind {}".format(molecules, dimentions, frequencies, iterations,
                                                            coordinates_tables_path, angles_tables_path,
                                                            output_volume_path, insersion_distances, sigma,
-                                                           gray_level_threshold, threads)
+                                                           gray_level_threshold, threads, grind)
     os.system(arg)
     # print(arg)

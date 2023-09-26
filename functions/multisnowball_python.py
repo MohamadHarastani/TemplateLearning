@@ -120,19 +120,20 @@ def repad(unpadded_volume, pads, actual_size):
 
 
 def snowball(mols, dim, frequencies, Iterations, coordinate_table, angle_table, output_volume, insersion_distances,
-             sigma,
-             gray_level_threshold, threads=None):
+             sigma, gray_level_threshold, threads=None, grind=False):
     """ Function to run the snowball in python
-          molecule             : path for input data volume (mrc format)
+          mols                 : a list of paths for input data volumes (mrc format)
           dim                  : dimensions of the big volume (phantom tomogram) in voxels [nx, ny, nz]
+          frequencies          : a list of integers same number as molecules specifies at each iteration how many of each molecule will be placed
           Iterations           : number of molecules to attempt placing in a volume, e.g., 1000
-          coordinate_table     : file path to store the output locations
-          angle_table          : file path to store the output angles
+          coordinate_table     : directory path to store the output locations
+          angle_table          : directory path to store the output angles
           output_volume        : file path to store the output volume (phantom tomogram, mrc format)
-          insersion_distances  : at what range from the bulk to insert the molecules, e.g., [5, 10]
+          insersion_distances  : at what range from the bulk to insert the molecules, e.g., [0, 1]
           sigma  (double)      : sigma of the low pass filtering, e.g., 2
-          gray_level_threshold : When the volumes are lowpass filtered, they are binarized. This is the threshold. e.g., 0.1
+          gray_level_threshold : When the volumes are lowpass filtered, they are binarized. This is the threshold. e.g., 100
           threads              : The number of threads to use in the processing
+          grind                : When true, the algorithm will continue trying to place molecules at later iteration despite the saturation
     """
     # For debugging
     # print(mols, dim, frequencies, Iterations, coordinate_table, angle_table, output_volume, insersion_distances, sigma,
@@ -159,10 +160,14 @@ def snowball(mols, dim, frequencies, Iterations, coordinate_table, angle_table, 
     breaker = False
     for _ in trange(Iterations):
         if breaker:
-            break
+            if grind:
+                print('Trying to add more molecules')
+            else:
+                break
         for mol, freq in zip(mols, frequencies):
             if breaker:
-                break
+                if not grind:
+                    break
             # initialize angles and coordinates
             angles = []
             coordinates = []
@@ -305,6 +310,7 @@ if __name__ == '__main__':
     CLI.add_argument("--sigma")
     CLI.add_argument("--gray_level_threshold")
     CLI.add_argument("--threads")
+    CLI.add_argument("--grind")
 
     # parse the command line
     args = CLI.parse_args()
@@ -320,5 +326,6 @@ if __name__ == '__main__':
         np.fromstring(args.insersion_distances[1:-1], dtype=int, sep=','),
         float(args.sigma),
         float(args.gray_level_threshold),
-        None if args.threads == 'None' else int(args.threads)
+        None if args.threads == 'None' else int(args.threads),
+        True if args.grind == 'True' else False
     )
