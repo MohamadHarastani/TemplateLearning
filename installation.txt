@@ -1,7 +1,10 @@
-conda create -y -n TemplateLearning python=3.9
+# Installation done on the 26/09/2023 -- in case some problems occure, try to find the versions that work with this date (see for example the conda.log file for all versions)
+# Installation is inspired from eman2 installation, added to it ProDy and Parakeet
+conda update --all
+conda install mamba -c conda-forge
+# Mamba is usually faster to solve the environment than conda, but you can use "conda create" in case mamba didn't install properly
+mamba create -y -n TemplateLearning python=3.9 eman-dev==2.99.47 -c cryoem -c conda-forge
 conda activate TemplateLearning
 pip install ProDy tqdm mrcfile scikit-image pyfftw pip install python-parakeet==0.4.5 h5py==3.8.0
-# you need to have eman2 installed, and install yaml on it
-conda activate eman2-env  # get the name of the environement from "conda env list"
-pip install pyyaml
+
 
