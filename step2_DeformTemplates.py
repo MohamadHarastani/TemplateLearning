@@ -9,7 +9,7 @@ import prody
 # this range is good for a template of size 200 kDa, and it can be good for any template. If you want more variations,
 # increase this number (e.g. double it)
 deformation_range = 100
-deformations_per_template = 3
+deformations_per_template = 10
 
 ############# CODE #############
 templates = list(glob.glob('templates/*.pdb'))
