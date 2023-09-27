@@ -1,14 +1,13 @@
-# remember to activate your eman2 conda environment before launching this script
 import os
 import glob
-
 import tqdm
 
-# paramters to set
+############# USER #############
 box_size = 22
 voxel_size = 16
 resolution = 32
 
+############# CODE #############
 os.mkdir('volumes')
 os.mkdir('volumes/distractors')
 os.mkdir('volumes/templates')
@@ -28,4 +27,3 @@ for template in tqdm.tqdm(templates):
     volume_name = 'volumes/templates/' + os.path.basename(template)[:-3] + 'mrc'
     args = 'e2pdb2mrc.py --box {} --res {} --apix {} {} {}'.format(box_size, resolution, voxel_size, template, volume_name)
     os.system(args)
-

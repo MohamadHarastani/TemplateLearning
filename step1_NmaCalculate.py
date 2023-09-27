@@ -5,6 +5,7 @@ import tqdm
 import prody
 import numpy as np
 
+############# USER #############
 # Templates should be placed in the folder "templates" and should be either in cif or pdb format (don't mix the two)
 center_templates = True  # set True if you want your templates to be centered, otherwise False
 coarse_grain = True  # set to True to go faster and coarse grain the templates before
@@ -17,7 +18,7 @@ cutoff = 15
 spring_constant = 1
 threads = multiprocessing.cpu_count() - 1
 
-############# CODE #################
+############# CODE #############
 backup_path = 'templates/backup_templates'
 os.mkdir(backup_path)
 
@@ -41,7 +42,6 @@ templates = list(glob.glob('templates/*.pdb'))
 # The calculated normal modes will be placed here:
 nma_paths = 'templates/NMA'
 os.mkdir(nma_paths)
-
 
 for template in tqdm.tqdm(templates):
     name = os.path.basename(template)[:-4]

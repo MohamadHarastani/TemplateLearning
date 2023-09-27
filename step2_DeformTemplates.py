@@ -5,13 +5,15 @@ import tqdm
 import numpy
 import prody
 
-templates = list(glob.glob('templates/*.pdb'))
-nma_paths ='templates/NMA/'
-
+############# USER #############
 # this range is good for a template of size 200 kDa, and it can be good for any template. If you want more variations,
 # increase this number (e.g. double it)
-deformation_range = 150
-deformations_per_template = 100
+deformation_range = 100
+deformations_per_template = 3
+
+############# CODE #############
+templates = list(glob.glob('templates/*.pdb'))
+nma_paths ='templates/NMA/'
 
 for template in tqdm.tqdm(templates):
     name = os.path.basename(template)[:-4]
@@ -37,4 +39,3 @@ for template in tqdm.tqdm(templates):
             pdb._coords += mode
         new_name = 'templates/{}_{}.pdb'.format(name, i)
         prody.writePDB(new_name, pdb)
-
