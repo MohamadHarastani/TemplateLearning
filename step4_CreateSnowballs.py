@@ -10,12 +10,12 @@ snowball_sampling_rate = 16  # Attention: has to match the volumes sampling rate
 number_of_snowballs = 48
 dimentions = ['128', '128', '64']
 iterations = 5
-insersion_distances = [-1, 0]
-sigma = 2
+insersion_distances = [-2, 0]
+sigma = 1.65
 gray_level_threshold = 100
 threads = None  # None is ( all CPUs -1 ) , if you want to use less CPUs, set it here
 grind = False  # grind will try to add more molecules, but the snowball dimention should be big enough for it to work, keep it False unless you are an expert
-density_ratio = 4  #  number of distractors for each template. Set it to 1 if your template is too small, 2 or more if the tempalte is big
+density_ratio = 2  #  number of distractors for each template. Set it to 1 if your template is too small, 2 or more if the tempalte is big
 
 ############# CODE #############
 templates = list(glob.glob('volumes/templates/*.mrc'))

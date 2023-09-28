@@ -9,8 +9,7 @@ import numpy as np
 # Templates should be placed in the folder "templates" and should be either in cif or pdb format (don't mix the two)
 center_templates = True  # set True if you want your templates to be centered, otherwise False
 coarse_grain = True  # set to True to go faster and coarse grain the templates before
-course_grain_command = "name CA P"  # selecting only CA and P atoms while calculating normal modes. Will be ignored if course_grain is set ot False.  Very fast, but can be very rough
-# course_grain_command = "name CA P and resnum 1:250000:4"  # this can speed up the calculation of normal modes of very big structures
+course_grain_command = "name CA P"  # selecting only CA and P atoms while calculating normal modes. Will be ignored if course_grain is set ot False. If you want to select something else, check the ProDy documentation.
 cif = False  # set True if your templates are in cif format, otherwise False
 # general parameters (keep default unless you're an expert)
 modes_number = 20
