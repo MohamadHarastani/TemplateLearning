@@ -1,10 +1,13 @@
-# Installation done on the 26/09/2023 -- in case some problems occure, try to find the versions that work with this date (see for example the conda.log file for all versions)
-# Installation is inspired from eman2 installation, added to it ProDy and Parakeet
+# make sure you have imod installed as in the path -- we tested with imod version 4.11.15 -- Check that you have these binaries in your path
+which newstack tilt trimvol
+
+# This command will install eman2 and the other needed packages. You need Cuda installed, we tested with versions 10.2 and 11.4, but usually any close versions should work (Eman2, Imod and Parakeet to blame if not)
+conda env create -f environment.yml
+
+# If this doesn't work or takes a long time, you may install eman2 and add to it ProDy and Parakeet -- here's how I've done it
 conda update --all
 conda install mamba -c conda-forge
-# Mamba is usually faster to solve the environment than conda, but you can use "conda create" in case mamba didn't install properly
 mamba create -y -n TemplateLearning python=3.9 eman-dev==2.99.47 -c cryoem -c conda-forge
 conda activate TemplateLearning
-pip install ProDy tqdm mrcfile scikit-image pyfftw pip install python-parakeet==0.4.5 h5py==3.8.0
-
+pip install ProDy==2.4.1 tqdm==4.66.1 mrcfile==1.4.3 scikit-image==0.21.0 pyfftw==0.13.1 python-parakeet==0.4.5 h5py==3.8.0
 
