@@ -4,10 +4,10 @@ which newstack tilt trimvol
 # This command will install eman2 and the other needed packages. You need Cuda installed, we tested with versions 10.2 and 11.4, but usually any close versions should work (Eman2, Imod and Parakeet to blame if not)
 conda env create -f environment.yml
 
-# If this doesn't work or takes a long time, you may install eman2 and add to it ProDy and Parakeet -- here's how I've done it
+# If this doesn't work or takes a long time, you may install eman2 and add to it ProDy, Parakeet and some light packages to it -- here's how I've done it
 conda update --all
 conda install mamba -c conda-forge
 mamba create -y -n TemplateLearning python=3.9 eman-dev==2.99.47 -c cryoem -c conda-forge
 conda activate TemplateLearning
-pip install ProDy==2.4.1 tqdm==4.66.1 mrcfile==1.4.3 scikit-image==0.21.0 pyfftw==0.13.1 python-parakeet==0.4.5 h5py==3.8.0
+pip install ProDy==2.4.1 mrcfile==1.4.3 scikit-image==0.21.0 pyfftw==0.13.1 python-parakeet==0.4.5 h5py==3.8.0
 
