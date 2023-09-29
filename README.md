@@ -50,11 +50,12 @@ python step4_CreateSnowballs.py  # with default values should take ~ 1 hour 15 m
 Validation: see the output of step 4 by opening some snowball volumes in the folder "snowballs", make sure you can see your template in between the distractors. Also, make sure the snowball looks dense!
 - Start the simulation of the data using the physics simulator
 ```
-python step5_SimulateData.py >> log.txt  # sit back and relax! Depending on the speed of your GPU, this step will take from overnight to a couple of days with default values.
+python step5_SimulateData.py >> log.txt  # sit back and relax! Depending on the speed of your GPU, this step will take around 17 hours with default values.
 ```
 Validation: during the simulation, you will get an estimate on how much time remaining after the first iteration. After one iteration is done (by default parakeet/32), you can open the simulated tiltseries with imod. The image called 'optics.h5' is very handy to visualize, as it is not too noisy. If it looks empty, you may need to reload the image to see it (Imod>Edit>Image>Reload>Calc&Apply). It should be simular to the snowball but with a sampling of 1 A/pix. If it doesn't correspond to a snowball, them probably you have a mistake in setting the sizes. Otherwise, keep the simulation going
 - Extract what you need to train your model
 ```
 python BinReorderReconstruct.py  # should take a few minutes
 ```
-Validation: look at the folder called "results". It should have tomograms, segmentation maps and coordinates that can be used to train deeplearning models. To use deepfinder right away, use the Scipion template attached to the project.
+Validation: look at the folder called "results". It should have tomograms, segmentation maps and coordinates that can be used to train deeplearning models.
+- To use deepfinder in the easiest way, use the Scipion workflow (DeepFinder_Scipion.json) attached to the project. Open Scipion, Project -> Import workflow

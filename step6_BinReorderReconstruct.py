@@ -205,9 +205,6 @@ templates_list = [os.path.basename(template)[:-4] for template in glob.glob('tem
 snowballs_path = 'snowballs/'
 output_path = 'segmentations/'
 
-parent_dir = os.path.abspath(os.curdir)
-
-
 
 # for every tomogram, copy the tomogram and all templates coordinates to the outpath
 for simulation in tqdm.tqdm(simulation_list):
@@ -240,8 +237,8 @@ for simulation in tqdm.tqdm(simulation_list):
                 molecule = np.transpose(mrc.data)
 
             # reading the coordinates and angles files
-            coordinates = np.loadtxt(coordinates_file, skiprows=1, delimiter=',', dtype=int)
-            angles = np.loadtxt(angles_file, skiprows=1, delimiter=',')
+            coordinates = np.atleast_2d(np.loadtxt(coordinates_file, skiprows=1, delimiter=',', dtype=int))
+            angles = np.atleast_2d(np.loadtxt(angles_file, skiprows=1, delimiter=','))
             for rotation, position in zip(angles, coordinates):
                 rotation_matrix = Rotation.from_euler(angles=rotation, seq='ZYZ', degrees=True).inv().as_matrix()
                 rotated_molecule = rotate3d(molecule, rotation_matrix)
