@@ -7,12 +7,15 @@ def generate_config(
         start_angle=-60,
         step_angle=2,
         density=1,
-        output_config='parakeet/0/config.yaml'
+        output_config='parakeet/0/config.yaml',
+        GPU_ID='0'
 ):
-    config = "cluster:\n"
-    config += "  max_workers: {}\n".format(1)
-    config += "  method: null\n"
-    config += "device: {}\n".format(['cpu', 'gpu'][1])
+    config = "multiprocessing:\n"
+    config += "  device: {}\n".format(['cpu', 'gpu'][1])
+    config += "  gpu_id:\n"
+    config += "  - {}\n".format(GPU_ID)
+    config += "  nproc: {}\n".format(1)
+
     config += "microscope:\n"
     config += "  beam:\n"
     config += "    acceleration_voltage_spread: {}\n".format(8e-07)

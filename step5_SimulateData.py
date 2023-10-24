@@ -1,10 +1,12 @@
 import os
 import itertools
 from functions.create_config import generate_config
-import glob
 import tqdm
+import joblib
+
 
 ############# USER #############
+GPU_ID = ['0', '1']
 dimentions = (2048, 2048, 1024)  # in Angstroms (snowball size * snowball pixel size)
 phase_plates = True
 # paramters used as variations (here 48 variations)
@@ -21,7 +23,11 @@ else:
 # generating configurations from snowballs
 output_path = 'parakeet'
 os.mkdir(output_path)
+
+# repeat the GPU_IDs so that each simulation is done on a new GPU
+GPU_list = GPU_ID * 1000
 snowball_id = 0
+
 for combination in itertools.product(total_doses, tilt_steps, start_angles, ice_densities, defoci):
     snowball_file = 'snowballs/{}/atomic_angposfile.txt'.format(snowball_id)
     total_dose, tilt_step, start_angle, ice_density, defocus = combination
@@ -30,14 +36,20 @@ for combination in itertools.product(total_doses, tilt_steps, start_angles, ice_
     os.mkdir(config_dir)
     config_path = '{}/config.yaml'.format(config_dir)
     generate_config(eletrons_per_angstrom, dimentions, phase_plates, defocus, snowball_file, start_angle, tilt_step,
-                    ice_density, config_path)
+                    ice_density, config_path, GPU_list[snowball_id])
     snowball_id += 1
 
-simulation_list = glob.glob('parakeet/*')
+simulation_list = ["parakeet/{}".format(i) for i in range(snowball_id)]
+
 parent_dir = os.path.abspath(os.curdir)
 print(simulation_list)
+
 # Running the simulation
-for simulation in tqdm.tqdm(simulation_list):
+def simulate(simulation, parent_dir):
     os.chdir(simulation)
     os.system('parakeet.run -c config.yaml --steps all')
     os.chdir(parent_dir)
+
+
+joblib.Parallel(n_jobs=GPU_ID.__len__())(joblib.delayed(simulate)(simulation, parent_dir)
+                                         for simulation in tqdm.tqdm(simulation_list))
