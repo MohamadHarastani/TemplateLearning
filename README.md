@@ -44,7 +44,7 @@ Validation: see the output of step 3 by opening some volumes in the folder "volu
 ```
 python step4_CreateTetris.py  # with default values should take ~ 1 hour 15 minutes to create 48 simulated volumes (on a basic CPU)
 ```
-Validation: see the output of step 4 by opening some tetris volumes in the folder "tetris", make sure you can see your template in between the distractors. Also, make sure the tetris looks dense!
+Validation: see the output of step 4 by opening some tetris volumes in the folder "tetrises", make sure you can see your template in between the distractors. Also, make sure the tetris looks dense!
 - Start the simulation of the data using the physics simulator (Parakeet)
 ```
 python step5_SimulateData.py >> log.txt  # Depending on the speed of your GPU, on a single GPU, this step will take around 17 hours with default values. If you have multiple GPUs, the time will be reduce linearly
