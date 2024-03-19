@@ -6,14 +6,14 @@ import numpy as np
 import copy
 import mrcfile
 from scipy.spatial.transform import Rotation
-from functions.multisnowball_python import place, gaussian3d, rotate3d
+from functions.multitetris_python import place, gaussian3d, rotate3d
 
 ############# USER #############
-snowball_size = (128, 128, 64)
-snowballs_pixel_size = 16
+tetris_size = (128, 128, 64)
+tetrises_pixel_size = 16
 tomogram_pixel_size = 8  # output pixel size, in Angstroms, has to be integer for imod to accept it
 sirt_iterations = 0  # set to zero if you want only WBP reconstructions
-# durning the generations of segmentations (use the same parameters as snowball)
+# durning the generations of segmentations (use the same parameters as tetris)
 sigma = 2
 gray_level_threshold = 100
 # Match the output segmentation to the tomogram pixel size
@@ -21,8 +21,8 @@ adjust_to_different_size = True
 output_size = (256, 256, 128)
 
 ############# CODE #############
-size_ratio = snowballs_pixel_size/tomogram_pixel_size
-z= int(size_ratio*snowball_size[2])  # output tomogram thickness (be careful, this has to be equal to snowball z size at the new pixel size). In other words, z = (snowball_z * snowballPixelSize / outputPixelSize)
+size_ratio = tetrises_pixel_size/tomogram_pixel_size
+z= int(size_ratio*tetris_size[2])  # output tomogram thickness (be careful, this has to be equal to tetris z size at the new pixel size). In other words, z = (tetris_z * tetrisPixelSize / outputPixelSize)
 PixelSize = tomogram_pixel_size
 
 simulation_list = glob.glob('parakeet/*')
@@ -133,7 +133,7 @@ for simulation in tqdm.tqdm(simulation_list):
 
 simulation_list = glob.glob('parakeet/*')
 templates_list = [os.path.basename(template)[:-4] for template in glob.glob('templates/*.pdb')]
-snowballs_path = 'snowballs/'
+tetrises_path = 'tetrises/'
 output_path = 'results/'
 output_tomograms = 'results/tomograms/'
 output_coordinates = 'results/coordinates/'
@@ -154,14 +154,14 @@ else:
 for simulation in tqdm.tqdm(simulation_list):
     # print(simulation)
     simulation_id = os.path.basename(simulation)
-    snowball = '{}{}'.format(snowballs_path, simulation_id)
-    # print(snowball)
+    tetris = '{}{}'.format(tetrises_path, simulation_id)
+    # print(tetris)
     tomogram_path = '{}/tomogram.mrc'.format(simulation)
     # copy the tomogram path to the results:
     tomogram_output = '{}{}.mrc'.format(output_tomograms,simulation_id)
     os.system('cp {} {}'.format(tomogram_path, tomogram_output))
     # get the coordinates ground truth
-    all_coordinates_files = glob.glob('{}/coordinates/*.txt'.format(snowball))
+    all_coordinates_files = glob.glob('{}/coordinates/*.txt'.format(tetris))
     filenames = [os.path.basename(file)[:-4] for file in all_coordinates_files]
     templates_coordinates_files = []
     for file in all_coordinates_files:
@@ -202,7 +202,7 @@ def resize(data, x, y, z):
 
 simulation_list = glob.glob('parakeet/*')
 templates_list = [os.path.basename(template)[:-4] for template in glob.glob('templates/*.pdb')]
-snowballs_path = 'snowballs/'
+tetrises_path = 'tetrises/'
 output_path = 'segmentations/'
 
 
@@ -210,18 +210,18 @@ output_path = 'segmentations/'
 for simulation in tqdm.tqdm(simulation_list):
     # print(simulation)
     simulation_id = os.path.basename(simulation)
-    snowball = '{}{}'.format(snowballs_path, simulation_id)
-    # print(snowball)
+    tetris = '{}{}'.format(tetrises_path, simulation_id)
+    # print(tetris)
     # copy the tomogram path to the results:
     # get the coordinates ground truth
-    all_coordinates_files = glob.glob('{}/coordinates/*.txt'.format(snowball))
-    all_angles_files = glob.glob('{}/angles/*.txt'.format(snowball))
+    all_coordinates_files = glob.glob('{}/coordinates/*.txt'.format(tetris))
+    all_angles_files = glob.glob('{}/angles/*.txt'.format(tetris))
 
     coordinates_filenames = [os.path.basename(file)[:-4] for file in all_coordinates_files]
     angles_filenames = [os.path.basename(file)[:-4] for file in all_angles_files]
 
     output_volume = '{}{}.mrc'.format(output_segmentations, simulation_id)
-    big_volume = np.zeros(snowball_size, dtype=np.float32)
+    big_volume = np.zeros(tetris_size, dtype=np.float32)
     for coordinates_file, angles_file in zip(all_coordinates_files, all_angles_files):
         basename = os.path.basename(coordinates_file)[:-4]
         if basename in templates_list:

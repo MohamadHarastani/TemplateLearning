@@ -6,15 +6,15 @@ import random
 from scipy.spatial.transform import Rotation
 
 ############# USER #############
-snowball_sampling_rate = 16  # Attention: has to match the volumes sampling rate
-number_of_snowballs = 48
+tetris_sampling_rate = 16  # Attention: has to match the volumes sampling rate
+number_of_tetrises = 48
 dimentions = ['128', '128', '64']
 iterations = 5
 insersion_distances = [-2, 0]
 sigma = 1.65
 gray_level_threshold = 100
 threads = None  # None is ( all CPUs -1 ) , if you want to use less CPUs, set it here
-grind = False  # grind will try to add more molecules, but the snowball dimention should be big enough for it to work, keep it False unless you are an expert
+grind = False  # grind will try to add more molecules, but the tetris dimention should be big enough for it to work, keep it False unless you are an expert
 density_ratio = 2  #  number of distractors for each template. Set it to 1 if your template is too small, 2 or more if the tempalte is big
 
 ############# CODE #############
@@ -24,15 +24,15 @@ templates = templates * 200
 
 distractors_and_frequencies = numpy.loadtxt('Frequencies.csv', delimiter=',', dtype='str')
 distractors_and_frequencies = distractors_and_frequencies.transpose()
-os.mkdir('snowballs/')
+os.mkdir('tetrises/')
 
-for snowball_number in tqdm.tqdm(range(number_of_snowballs)):
+for tetris_number in tqdm.tqdm(range(number_of_tetrises)):
     molecules_list = []
-    snowball_path = 'snowballs/{}'.format(snowball_number)
-    coordinates_tables_path = '{}/coordinates'.format(snowball_path)
-    angles_tables_path = '{}/angles'.format(snowball_path)
-    output_volume_path = '{}/output_volume.mrc'.format(snowball_path)
-    os.mkdir(snowball_path)
+    tetris_path = 'tetrises/{}'.format(tetris_number)
+    coordinates_tables_path = '{}/coordinates'.format(tetris_path)
+    angles_tables_path = '{}/angles'.format(tetris_path)
+    output_volume_path = '{}/output_volume.mrc'.format(tetris_path)
+    os.mkdir(tetris_path)
     os.mkdir(coordinates_tables_path)
     os.mkdir(angles_tables_path)
 
@@ -47,10 +47,10 @@ for snowball_number in tqdm.tqdm(range(number_of_snowballs)):
 
         molecules_list.append(new_line)
 
-    # now run the snowball
+    # now run the tetris
     molecules = list(numpy.array(molecules_list)[:, 0])
     frequencies = list(numpy.array(molecules_list)[:, 1])
-    arg = "python functions/multisnowball_python.py --mol '{}' --dim '{}' --frequencies '{}' --iterations {}" \
+    arg = "python functions/multitetris_python.py --mol '{}' --dim '{}' --frequencies '{}' --iterations {}" \
           " --coordinate_table {} --angle_table {} --output_volume {} --insersion_distances '{}' --sigma {}" \
           " --gray_level_threshold {} --threads {} --grind {}".format(molecules, dimentions, frequencies, iterations,
                                                            coordinates_tables_path, angles_tables_path,
@@ -58,8 +58,8 @@ for snowball_number in tqdm.tqdm(range(number_of_snowballs)):
                                                            gray_level_threshold, threads, grind)
     os.system(arg)
 
-# converting the snowballs coordinates to parakeet coordinates
-snowballs_path = glob.glob('snowballs/*')
+# converting the tetrises coordinates to parakeet coordinates
+tetrises_path = glob.glob('tetrises/*')
 templates = glob.glob('templates/*')
 distractors = glob.glob('distractors/*')
 
@@ -67,9 +67,9 @@ templates_base_names = [os.path.basename(template)[:-4] for template in template
 distractors_base_names = [os.path.basename(distractor)[:-4] for distractor in distractors]
 
 
-for snowball_path in tqdm.tqdm(snowballs_path):
-    coordinates_tables = glob.glob('{}/coordinates/*.txt'.format(snowball_path))
-    angles_tables = glob.glob('{}/angles/*.txt'.format(snowball_path))
+for tetris_path in tqdm.tqdm(tetrises_path):
+    coordinates_tables = glob.glob('{}/coordinates/*.txt'.format(tetris_path))
+    angles_tables = glob.glob('{}/angles/*.txt'.format(tetris_path))
     txt = ''
     for coordinates_table, angles_tables in zip(coordinates_tables, angles_tables):
         basename = os.path.basename(coordinates_table)[:-4]
@@ -91,7 +91,7 @@ for snowball_path in tqdm.tqdm(snowballs_path):
         txt += '        instances: ['
         for coords, angs in zip(coorinates, angles):
             # multiplying the coordinates by the voxel size
-            coords = [float(i) * snowball_sampling_rate for i in coords.split(',')]
+            coords = [float(i) * tetris_sampling_rate for i in coords.split(',')]
             txt += '{position: [' + '{}'.format(coords)[1:-1]
             # converting the angles to rotation vectors
             angs = [float(i) for i in angs.split(',')]
@@ -102,7 +102,7 @@ for snowball_path in tqdm.tqdm(snowballs_path):
         txt = txt[:-2]
         txt += ']\n'
 
-    angsposfile = '{}/atomic_angposfile.txt'.format(snowball_path)
+    angsposfile = '{}/atomic_angposfile.txt'.format(tetris_path)
     if os.path.exists(angsposfile):
         os.remove(angsposfile)
     with open(angsposfile, 'w') as f:

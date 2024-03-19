@@ -119,9 +119,9 @@ def repad(unpadded_volume, pads, actual_size):
     return big_volume
 
 
-def snowball(mols, dim, frequencies, Iterations, coordinate_table, angle_table, output_volume, insersion_distances,
+def tetris(mols, dim, frequencies, Iterations, coordinate_table, angle_table, output_volume, insersion_distances,
              sigma, gray_level_threshold, threads=None, grind=False):
-    """ Function to run the snowball in python
+    """ Function to run the tetris in python
           mols                 : a list of paths for input data volumes (mrc format)
           dim                  : dimensions of the big volume (phantom tomogram) in voxels [nx, ny, nz]
           frequencies          : a list of integers same number as molecules specifies at each iteration how many of each molecule will be placed
@@ -296,7 +296,7 @@ def snowball(mols, dim, frequencies, Iterations, coordinate_table, angle_table, 
 if __name__ == '__main__':
     # this also generates --help and error handling
     CLI = argparse.ArgumentParser(
-        prog='Snowball',
+        prog='tetris',
         description='Generates compacted distribution of input molecules in 3D'
     )
     CLI.add_argument("--mol")
@@ -315,7 +315,7 @@ if __name__ == '__main__':
     # parse the command line
     args = CLI.parse_args()
     # access CLI options
-    snowball(
+    tetris(
         args.mol[1:-1].split(','),
         np.fromstring(args.dim[1:-1], dtype=int, sep=','),
         np.fromstring(args.frequencies[1:-1], dtype=int, sep=','),

@@ -16,20 +16,20 @@ cropped_size = np.array([128, 128, 64])
 
 center_shift = (original_size - cropped_size) // 2
 
-snowballs_path = glob.glob('snowballs/*')
-snowballs_path.sort()
-cropped_snowballs_path = 'snowballs_cropped'
+tetrises_path = glob.glob('tetrises/*')
+tetrises_path.sort()
+cropped_tetrises_path = 'tetrises_cropped'
 
-for snowball_path in snowballs_path:
-    output_path = "{}/{}".format(cropped_snowballs_path, os.path.basename(snowball_path))
-    # snowball_path = "snowballs/0"
-    # output_path = "snowballs_cropped/0"
+for tetris_path in tetrises_path:
+    output_path = "{}/{}".format(cropped_tetrises_path, os.path.basename(tetris_path))
+    # tetris_path = "tetrises/0"
+    # output_path = "tetrises_cropped/0"
 
     if os.path.exists(output_path):
         os.system('rm -rf {}'.format(output_path))
     os.makedirs(output_path)
 
-    input_volume = "{}/output_volume.mrc".format(snowball_path)
+    input_volume = "{}/output_volume.mrc".format(tetris_path)
     output_volume = "{}/output_volume.mrc".format(output_path)
 
     with mrcfile.open(input_volume) as mrc:
@@ -45,8 +45,8 @@ for snowball_path in snowballs_path:
     cropped_data = cropped_data.transpose()
     mrcfile.write(output_volume, cropped_data)
 
-    coordinates_path = "{}/coordinates".format(snowball_path)
-    angles_path = "{}/angles".format(snowball_path)
+    coordinates_path = "{}/coordinates".format(tetris_path)
+    angles_path = "{}/angles".format(tetris_path)
 
     coordinates_files = glob.glob("{}/*.txt".format(coordinates_path))
 

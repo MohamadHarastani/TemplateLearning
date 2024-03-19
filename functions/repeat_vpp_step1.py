@@ -20,21 +20,21 @@ if phase_plates:
 else:
     defoci = [-2.5, -3.25, -4]
 
-# generating configurations from snowballs
+# generating configurations from tetrises
 simulation_path_path = 'parakeet'
 output_path = 'vpp'
 os.mkdir(output_path)
-snowball_id = 0
+tetris_id = 0
 for combination in itertools.product(total_doses, tilt_steps, start_angles, ice_densities, defoci):
-    snowball_file = 'snowballs/{}/atomic_angposfile.txt'.format(snowball_id)
+    tetris_file = 'tetrises/{}/atomic_angposfile.txt'.format(tetris_id)
     total_dose, tilt_step, start_angle, ice_density, defocus = combination
     eletrons_per_angstrom = total_dose / len(range(start_angle, -start_angle + tilt_step, tilt_step))
-    config_dir = '{}/{}'.format(output_path, snowball_id)
+    config_dir = '{}/{}'.format(output_path, tetris_id)
     os.mkdir(config_dir)
     config_path = '{}/config.yaml'.format(config_dir)
-    generate_config(eletrons_per_angstrom, dimentions, phase_plates, defocus, snowball_file, start_angle, tilt_step,
+    generate_config(eletrons_per_angstrom, dimentions, phase_plates, defocus, tetris_file, start_angle, tilt_step,
                     ice_density, config_path)
-    snowball_id += 1
+    tetris_id += 1
 
 # link the sample and exit wave from the previous simulations
 file_ids = glob.glob('parakeet/*')

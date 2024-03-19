@@ -3,7 +3,7 @@ def generate_config(
         dimentions=(4096, 4096, 1024),
         phase_plates=False,
         defocus=-2.5,
-        snowball='snowballs/0/atomic_angposfile.txt',
+        tetris='tetrises/0/atomic_angposfile.txt',
         start_angle=-60,
         step_angle=2,
         density=1,
@@ -79,7 +79,7 @@ def generate_config(
     config += "  ice: null\n"
     config += "  molecules:\n"
     config += "    local:\n"
-    file = open(snowball, mode='r')
+    file = open(tetris, mode='r')
     file_content = file.read()
     file.close()
     config += file_content

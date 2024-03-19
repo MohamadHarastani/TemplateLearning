@@ -1,5 +1,5 @@
 # TemplateLearning
-Template Learning: Cryo-ET Particle-picking by Training Deep Learning on Templates via Domain Randomization
+Template Learning: Deep Learning with Domain Randomization for Particle Picking in Cryo-Electron Tomography
 
 
 ## Software
@@ -29,7 +29,7 @@ mamba create -y -n TemplateLearning python=3.9 eman-dev==2.99.47 -c cryoem -c co
 conda activate TemplateLearning
 pip install ProDy==2.4.1 mrcfile==1.4.3 scikit-image==0.21.0 pyfftw==0.13.1 python-parakeet==0.4.5 h5py==3.8.0
 ```
-## Short tutorial (see the detailed tutorial in case of any doubt)
+## Short tutorial
 - Replace the templates (in PDB or CIF format) in the directory "templates" with templates for your molecule
 - If you wish to simulate additional conformational variability (recommended), use steps 1 and 2. Otherwise, skip to step 3
 ```
@@ -43,16 +43,16 @@ Validation: see the output of step 2 by opening some simulated structures in the
 python step3_CreateVolumes.py  # with default values should take ~ 10 minutes
 ```
 Validation: see the output of step 3 by opening some volumes in the folder "volumes", especially those for your templates.
-- Create dense distribution of your volume. This algorithm "snowball" generates dense distributions placing your templates and distractors very close to each other
+- Create dense distribution of your volume. This algorithm "Tetris" generates dense distributions placing your templates and distractors very close to each other
 ```
-python step4_CreateSnowballs.py  # with default values should take ~ 1 hour 15 minutes (on a basic CPU)
+python step4_CreateTetris.py  # with default values should take ~ 1 hour 15 minutes (on a basic CPU)
 ```
-Validation: see the output of step 4 by opening some snowball volumes in the folder "snowballs", make sure you can see your template in between the distractors. Also, make sure the snowball looks dense!
+Validation: see the output of step 4 by opening some tetris volumes in the folder "tetris", make sure you can see your template in between the distractors. Also, make sure the tetris looks dense!
 - Start the simulation of the data using the physics simulator
 ```
 python step5_SimulateData.py >> log.txt  # sit back and relax! Depending on the speed of your GPU, this step will take around 17 hours with default values.
 ```
-Validation: during the simulation, you will get an estimate on how much time remaining after the first iteration. After one iteration is done (by default parakeet/32), you can open the simulated tiltseries with imod. The image called 'optics.h5' is very handy to visualize, as it is not too noisy. If it looks empty, you may need to reload the image to see it (Imod>Edit>Image>Reload>Calc&Apply). It should be simular to the snowball but with a sampling of 1 A/pix. If it doesn't correspond to a snowball, them probably you have a mistake in setting the sizes. Otherwise, keep the simulation going
+Validation: during the simulation, you will get an estimate on how much time remaining after the first iteration. After one iteration is done (by default parakeet/32), you can open the simulated tiltseries with imod. The image called 'optics.h5' is very handy to visualize, as it is not too noisy. If it looks empty, you may need to reload the image to see it (Imod>Edit>Image>Reload>Calc&Apply). It should be simular to the tetris but with a sampling of 1 A/pix. If it doesn't correspond to a tetris, them probably you have a mistake in setting the sizes. Otherwise, keep the simulation going
 - Extract what you need to train your model
 ```
 python BinReorderReconstruct.py  # should take a few minutes
