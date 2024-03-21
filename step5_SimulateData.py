@@ -15,9 +15,9 @@ tilt_steps = [2, 4]
 start_angles = [-60, -40]
 ice_densities = [0.9, 1.1]
 if phase_plates:
-    defoci = [0, 0.5, 1]
+    defoci = [0, -0.5, -1]
 else:
-    defoci = [2.5, 3.25, 4]
+    defoci = [-2.5, -3.25, -4]
 
 ############# CODE #############
 # generating configurations from tetrises
