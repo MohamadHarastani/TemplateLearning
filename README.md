@@ -27,7 +27,7 @@ conda activate TemplateLearning
 pip install ProDy==2.4.1 mrcfile==1.4.3 scikit-image==0.21.0 pyfftw==0.13.1 python-parakeet==0.4.5 h5py==3.8.0
 ```
 ## Short tutorial (a detailed tutorial will be provided soon)
-- Replace the templates (in PDB or CIF format) in the directory "templates" with templates for your molecule. The current templates are nucleosomes.
+- Replace the templates (in PDB or CIF format) in the directory "input_templates" with templates for your molecule. The current templates are nucleosomes.
 - If you wish to simulate additional conformational variability (recommended), use steps 1 and 2. Otherwise, skip to step 3
 ```
 conda activate TemplateLearning

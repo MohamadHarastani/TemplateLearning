@@ -1,0 +1,16 @@
+#### Eclipse and so on
+.project
+.cproject
+.pydevproject
+.classpath
+.idea
+
+#### Python
+build/
+dist/
+*.egg-info/
+*.egg
+*.py[cod]
+__pycache__/
+*.so
+*~
