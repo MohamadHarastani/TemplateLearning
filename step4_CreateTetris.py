@@ -5,7 +5,7 @@ import numpy
 import random
 from scipy.spatial.transform import Rotation
 import argparse
-
+from functions.utilities import str2bool
 
 def main(volumes_dir, templates_dir, distractors_dir, output, frequencies_csv, tetris_sampling_rate, number_of_tetrises, dimensions,
          density_ratio, iterations, insertion_distances, sigma, gray_level_threshold, threads, grind):
@@ -44,6 +44,7 @@ def main(volumes_dir, templates_dir, distractors_dir, output, frequencies_csv, t
         # now run the tetris
         molecules = list(numpy.array(molecules_list)[:, 0])
         frequencies = list(numpy.array(molecules_list)[:, 1])
+        # TODO: make sure the function is in the path
         arg = "python functions/multitetris_python.py --mol '{}' --dim '{}' --frequencies '{}' --iterations {}" \
               " --coordinate_table {} --angle_table {} --output_volume {} --insersion_distances '{}' --sigma {}" \
               " --gray_level_threshold {} --threads {} --grind {}".format(molecules, dimensions, frequencies, iterations,
@@ -52,6 +53,7 @@ def main(volumes_dir, templates_dir, distractors_dir, output, frequencies_csv, t
                                                                gray_level_threshold, threads, grind)
         os.system(arg)
 
+    print('Done with generating tetrises, now adapting the file convention to Parakeet')
     # converting the tetrises coordinates to parakeet coordinates
     tetrises_path = glob.glob('{}/*'.format(output))
     templates = glob.glob('{}/*'.format(templates_dir))
@@ -101,18 +103,6 @@ def main(volumes_dir, templates_dir, distractors_dir, output, frequencies_csv, t
             os.remove(angsposfile)
         with open(angsposfile, 'w') as f:
             f.write(txt)
-
-
-# a function to accept boolean values as input to the parser
-def str2bool(v):
-    if isinstance(v, bool):
-        return v
-    if v.lower() in ('yes', 'true', 't', 'y', '1'):
-        return True
-    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
-        return False
-    else:
-        raise argparse.ArgumentTypeError('Boolean value expected.')
 
 
 if __name__ == "__main__":

@@ -5,6 +5,7 @@ import multiprocessing
 import tqdm
 import prody
 import numpy as np
+from functions.utilities import str2bool
 
 
 def main(input, output, center_templates, coarse_grain, course_grain_command, cif, modes_number, cutoff,
@@ -108,18 +109,6 @@ def main(input, output, center_templates, coarse_grain, course_grain_command, ci
 
     if not debug:
         os.system('rm -rf {}'.format(backup_path))
-
-
-# a function to accept boolean values as input to the parser
-def str2bool(v):
-    if isinstance(v, bool):
-        return v
-    if v.lower() in ('yes', 'true', 't', 'y', '1'):
-        return True
-    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
-        return False
-    else:
-        raise argparse.ArgumentTypeError('Boolean value expected.')
 
 
 if __name__ == "__main__":
