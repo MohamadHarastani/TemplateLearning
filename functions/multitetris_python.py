@@ -281,8 +281,8 @@ def tetris(mols, dim, frequencies, Iterations, coordinate_table, angle_table, ou
                 except:
                     coordinates = np.vstack((coordinates, coordinates_prev))
 
-            np.savetxt(angles_file, angles, delimiter=',', fmt='%f', header='a_1,a_2,a_3')
-            np.savetxt(coordinates_file, coordinates, delimiter=',', fmt='%d', header='c_1,c_2,c_3')
+            np.savetxt(angles_file, np.reshape(angles, [-1, 3]), delimiter=',', fmt='%f', header='a_1,a_2,a_3')
+            np.savetxt(coordinates_file, np.reshape(coordinates, [-1, 3]), delimiter=',', fmt='%d', header='c_1,c_2,c_3')
 
     # Saving the output volume only when the iterations are done, since we need to delete the old one
     if os.path.isfile(output_volume):

@@ -109,7 +109,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Script for generating 'tetrises' (dense volumetric distributions) from volumes input.",
                                      epilog = "Example: python %(prog)s --volumes volumes --templates templates --distractors distractors --output tetrises"
                                               " --frequencies_csv Frequencies.csv --tetris_sampling_rate 16 --number_of_tetrises 48"
-                                              " --dimensions 128 128 64 --density_ratio 3 --iterations 5 --insertion_distances -2 0"
+                                              " --dimensions 128 128 64 --density_ratio 3 --iterations 5 --insertion_distances -1 0"
                                               " --sigma 1.65 --gray_level_threshold 100 --threads 5 --grind False")
 
     parser.add_argument('--volumes', type=str, default='volumes', help='Default: %(default)s. Directory where volume versions of the templates and distractors exist in corresponding subdirectories.')
