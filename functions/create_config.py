@@ -2,6 +2,7 @@ def generate_config(
         electrons_per_angstrom=2,
         dimentions=(4096, 4096, 1024),
         phase_plates=False,
+        phase_shift=90,
         defocus=-2.5,
         tetris='tetrises/0/atomic_angposfile.txt',
         start_angle=-60,
@@ -63,7 +64,7 @@ def generate_config(
     config += "    phi_56: {}\n".format(0)
     config += "  model: {}\n".format(['krios', 'talos', 'null'][2])
     config += "  phase_plate:\n"
-    config += "    phase_shift: {}\n".format(90)
+    config += "    phase_shift: {}\n".format(phase_shift)
     config += "    radius: {}\n".format(0.005)
     config += "    use: {}\n".format(phase_plates)
     config += "sample:\n"
