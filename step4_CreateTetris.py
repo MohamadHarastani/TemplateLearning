@@ -115,7 +115,7 @@ if __name__ == "__main__":
     parser.add_argument('--volumes', type=str, default='volumes', help='Default: %(default)s. Directory where volume versions of the templates and distractors exist in corresponding subdirectories.')
     parser.add_argument('--templates', type=str, default='templates', help='Default: %(default)s. Directory where all the templates PDBs exist.')
     parser.add_argument('--distractors', type=str, default='distractors', help='Default: %(default)s. Directory where all the distractors PDBs exist.')
-    parser.add_argument('--output', type=str, default='volumes', help='Default: %(default)s. Directory where all the output tetrises will be stored.')
+    parser.add_argument('--output', type=str, default='tetrises', help='Default: %(default)s. Directory where all the output tetrises will be stored.')
     parser.add_argument('--frequencies_csv', type=str, default='Frequencies.csv', help='Default: %(default)s. CSV file containing all the distractors names with how many times they appear in each iteration (small distractors appear more than big ones).')
 
     parser.add_argument('--tetris_sampling_rate', type=int, default=16, help='Default: %(default)s. Sampling rate, must match the input volumes sampling rate.')
