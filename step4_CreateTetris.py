@@ -83,6 +83,9 @@ def main(volumes_dir, templates_dir, distractors_dir, output, frequencies_csv, t
             coorinates = open(coordinates_table).read().split('\n')[1:-1]
             angles = open(angles_tables).read().split('\n')[1:-1]
 
+            if coorinates == []:
+                continue
+
             txt += '      - filename: {}\n'.format(filename)
             txt += '        instances: ['
             for coords, angs in zip(coorinates, angles):
