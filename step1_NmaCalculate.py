@@ -48,7 +48,7 @@ def main(input, output, center_templates, coarse_grain, course_grain_command, ci
     templates = list(glob.glob('{}/*.pdb'.format(output)))
 
     # The calculated normal modes will be placed here:
-    nma_paths = 'templates/NMA'
+    nma_paths = '{}/NMA'.format(output)
     os.mkdir(nma_paths)
 
     print('Calculating NMA for each template')
@@ -123,7 +123,12 @@ if __name__ == "__main__":
                     ' modes to the full structure. '
                     '5- The output of this script is: '
                     'a- centered full atomic structures. '
-                    'b- corresponding normal modes.')
+                    'b- corresponding normal modes.',
+        epilog="Example: python %(prog)s --input_directory input_templates --output_directory templates"
+               " --center_templates True --cif False --coarse_grain True --course_grain_command name CA P "
+               " --modes_number 20 --cutoff 15 --spring_constant 1 --keep_intermediate_files False")
+
+
     parser.add_argument('--input_directory', type=str, default='input_templates',
                         help='Default: %(default)s. Directory for input atomic structures to be used as templates.')
     parser.add_argument('--output_directory', type=str, default='templates',
