@@ -31,7 +31,9 @@ def main(templates, distractors, output, box_size, voxel_size, resolution):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Convert PDB files to MRC volumes with specified parameters.')
+    parser = argparse.ArgumentParser(description='Convert PDB files to MRC volumes with specified parameters.',
+                                     epilog="Example: python %(prog)s --templates templates --distractors distractors"
+                                            " --output volumes --box_size 22 --voxel_size 16 --resolution 32")
     parser.add_argument('--templates', type=str, default='templates', help='Default: %(default)s. Directory where all the templates PDBs exist.')
     parser.add_argument('--distractors', type=str, default='distractors', help='Default: %(default)s. Directory where all the distractors PDBs exist.')        
     parser.add_argument('--output', type=str, default='volumes', help='Default: %(default)s. Directory where all the output volumes will be stored.')
