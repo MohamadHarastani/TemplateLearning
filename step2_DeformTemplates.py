@@ -7,9 +7,9 @@ import numpy as np
 import prody
 
 
-def main(deformation_range, deformations_per_template):
-    templates = list(glob.glob('templates/*.pdb'))
-    nma_paths = 'templates/NMA/'
+def main(deformation_range, deformations_per_template, templates_dir):
+    templates = list(glob.glob('{}/*.pdb'.format(templates_dir)))
+    nma_paths = '{}/NMA/'.format(templates_dir)
 
     print('Will be deforming these templates: ', templates)
     for template in tqdm.tqdm(templates):
@@ -33,13 +33,17 @@ def main(deformation_range, deformations_per_template):
                 amplitude = (random.random() - 0.5) * 2 * deformation_range
                 mode *= amplitude
                 pdb._coords += mode
-            new_name = 'templates/{}_{}.pdb'.format(name, i)
+            new_name = '{}/{}_{}.pdb'.format(templates_dir, name, i)
             prody.writePDB(new_name, pdb)
     print('If you want to remove the deformed templates and repeat this script with different parameters,'
           ' use this command "rm templates/*centered_*.pdb"')
 
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Generate deformations for input templates.')
+    parser = argparse.ArgumentParser(description='Generate deformations for input templates.',
+                                     epilog="Example: python %(prog)s --working_directory templates "
+                                            "--deformation_range 100 --deformations_per_template 25")
+
     parser.add_argument('--working_directory', type=str, default='templates', help='Default: %(default)s. The directory'
                                                                                    ' where you have the centered'
                                                                                    ' templates and their normal modes.')
@@ -65,4 +69,4 @@ if __name__ == "__main__":
                                                                                   ' compensate (e.g. 100 to 1000)')
     args = parser.parse_args()
 
-    main(args.deformation_range, args.deformations_per_template)
+    main(args.deformation_range, args.deformations_per_template, args.working_directory)
