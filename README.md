@@ -7,6 +7,7 @@ Template Learning: Deep Learning with Domain Randomization for Particle Picking 
 - IMOD (we tested with v 4.11.15, but we believe that any version should be compatible)
 - Conda (miniconda should be fine)
 - Cuda (we tested with 10.2 and 11.4, if you manage to install Eman2 and Parakeet you should be fine)
+- Hardware: essentially, at least one NVIDIA GPU card is needed. We tested code on a basic workstation: Dell Precision 5820, Intel(R) Xeon(R) W-2145 CPU @ 3.70GHz, 96 GB DDR4 RAM, 2 X NVIDIA RTX A6000 or NVIDIA Quadro RTX 8000 
 ### Installation
 Make sure you have IMOD and Cuda executables in your path
 ```
@@ -26,9 +27,9 @@ mamba create -y -n TemplateLearning python=3.9 eman-dev==2.99.47 -c cryoem -c co
 conda activate TemplateLearning
 pip install ProDy==2.4.1 mrcfile==1.4.3 scikit-image==0.21.0 pyfftw==0.13.1 python-parakeet==0.4.5 h5py==3.8.0
 ```
-## Short tutorial (a detailed tutorial will be provided soon)
-- Replace the templates (in PDB or CIF format) in the directory "input_templates" with templates for your molecule. The current templates are nucleosomes.
-- If you wish to simulate additional conformational variability (recommended), use steps 1 and 2. Otherwise, skip to step 3
+## Short tutorial / demo
+- Replace the templates (in PDB or CIF format) in the directory "input_templates" with templates for your target molecule. The current templates are nucleosomes (keep everything unchanged if you want to run a demo).
+- If you wish to simulate additional conformational variability (recommended by default), use steps 1 and 2. Otherwise, skip to step 3
 ```
 conda activate TemplateLearning
 python step1_NmaCalculate.py  # with default values, should take a few seconds for small templates (~200 kDa), up to a few hours for huge templates (~2 MDa)
