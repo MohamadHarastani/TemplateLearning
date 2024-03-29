@@ -7,11 +7,12 @@ from scipy.spatial.transform import Rotation
 import argparse
 from functions.utilities import str2bool
 
+
 def main(volumes_dir, templates_dir, distractors_dir, output, frequencies_csv, tetris_sampling_rate, number_of_tetrises, dimensions,
          density_ratio, iterations, insertion_distances, sigma, gray_level_threshold, threads, grind):
 
     templates = list(glob.glob('{}/templates/*.mrc'.format(volumes_dir)))
-    # repleat the templates just in case a template is alone, or the number of templates are less than distractors
+    # repeat the templates just in case a template is alone, or the number of templates are less than distractors
     templates = templates * 200
 
     distractors_and_frequencies = numpy.loadtxt(frequencies_csv, delimiter=',', dtype='str')
@@ -29,7 +30,6 @@ def main(volumes_dir, templates_dir, distractors_dir, output, frequencies_csv, t
         os.mkdir(tetris_path)
         os.mkdir(coordinates_tables_path)
         os.mkdir(angles_tables_path)
-
         random.shuffle(templates)
         # fix the names to include the path and _centered.mrc, and add the templates
         for i in range(len(distractors_and_frequencies)):
