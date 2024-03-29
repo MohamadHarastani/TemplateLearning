@@ -8,7 +8,7 @@ from functions.utilities import str2bool
 
 
 def main(tetrises, output_path, GPU_ID, dimensions, phase_plates, phase_shift, defoci, total_doses, tilt_steps,
-         start_angles, ice_densities):
+         start_angles, ice_densities, remove_intermediate_files):
     print("Generating configurations from tetrises")
     if not os.path.exists(output_path):
         os.mkdir(output_path)
@@ -37,13 +37,12 @@ def main(tetrises, output_path, GPU_ID, dimensions, phase_plates, phase_shift, d
     def simulate(simulation, parent_dir):
         os.chdir(simulation)
         os.system('parakeet.run -c config.yaml --steps all')
+        if(remove_intermediate_files):
+            os.system('rm exit* optics* sample*')
         os.chdir(parent_dir)
-
 
     joblib.Parallel(n_jobs=GPU_ID.__len__())(joblib.delayed(simulate)(simulation, parent_dir)
                                              for simulation in tqdm.tqdm(simulation_list))
-
-
 
 
 if __name__ == "__main__":
@@ -51,7 +50,7 @@ if __name__ == "__main__":
                                      epilog="Example of use: python %(prog)s --tetrises tetrises --output parakeet"
                                             " --GPU_ID 0 1 --dimensions 2048 2048 1024 --phase_plates --phase_shift 90"
                                             " --defoci 0 -0.5 1 --total_doses 75 150 --tilt_steps 2 4"
-                                            " --start_angles -60 -40 --ice_densities 0.9 1.1")
+                                            " --start_angles -60 -40 --ice_densities 0.9 1.1 --remove_intermediate_files False")
 
     parser.add_argument('--tetrises', type=str, default='tetrises', help='Default: %(default)s. Directory where all the tetrises exist.')
     parser.add_argument('--output', type=str, default='parakeet', help='Default: %(default)s. Directory where the output simulations will be stored.')
@@ -74,8 +73,12 @@ if __name__ == "__main__":
                         help="Start angles to simulate. Example: --start_angles -60 -40")
     parser.add_argument('--ice_densities', nargs='+', type=float, default=[0.9, 1.1],
                         help="Ice densities to simulate. Example: --ice_densities 0.9 1.1")
-
+    parser.add_argument('--remove_intermediate_files', type=str2bool, default=False, help="Default: %(default)s."
+                                                                                          " Use this option if you do not"
+                                                                                          " have enough space. Otherwise, it is useful"
+                                                                                          " to keep the exit wave and optics"
+                                                                                          " to make sure that nothing went wrong")
     args = parser.parse_args()
 
     main(args.tetrises, args.output, args.GPU_ID, tuple(args.dimensions), args.phase_plates, args.phase_shift, args.defoci,
-         args.total_doses, args.tilt_steps, args.start_angles, args.ice_densities)
+         args.total_doses, args.tilt_steps, args.start_angles, args.ice_densities, args.remove_intermediate_files)
