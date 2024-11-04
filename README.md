@@ -64,7 +64,7 @@ cp functions/train $(which train) && cp functions/segment $(which segment) && cp
 train -p DeepFinder/params_train.xml 
 # applying the trained model to a tomogram
 segment -t path-to/your_tomogram.mrc -w DeepFinder/net_weights_epoch100.h5 -c 2 -p 120 -o path-to/your_tomogram_segmented.mrc
-cluster -l path-to/your_tomogram_segmented.mrc -r 10 -o path_to_coordinates.xml
+cluster -l path-to/your_tomogram_segmented.mrc -r 6 -o path_to_coordinates.xml
 ```
 
 Enjoy, and for any question open a ticket!
