@@ -52,13 +52,13 @@ python step5_SimulateData.py >> log.txt  # Depending on the speed of your GPU, o
 Validation: during the simulation, you will get an estimate on how much time remaining after the first iteration. After one iteration is done, you can open the simulated tiltseries with IMOD. The image called 'optics.h5' is very handy to visualize, as it is not too noisy. If it looks empty, you may need to reload the image to see it (IMOD>Edit>Image>Reload>Calc&Apply). It should be simular to the tetris (but tilt series version with defocus) but with a sampling of 1 A/pix. If it doesn't correspond to a tetris, then probably there is a mistake in setting the sizes. Otherwise, sit back and relax!
 - Extract what you need to train your model
 ```
-python BinReorderReconstruct.py  # should take a few minutes
+python step6_BinReorderReconstruct.py  # should take a few minutes
 ```
 Validation: look at the folder called "results". It should have tomograms, segmentation maps and coordinates that can be used to train deeplearning models.
 - To use deepfinder in the easiest way, use the Scipion workflow (DeepFinder_Scipion.json) attached to the project. Open Scipion, Project -> Import workflow and just populate the protocols with your simulated and expiremental data!
 - If you wish to use DeepFinder outside of Scipion, install it from `[cryoet-deepfinder] <https://github.com/deep-finder/cryoet-deepfinder>` then run the following step:
 ```
-python Step7_prepareDataForDeepFinder.py  # should be instant
+python step7_prepareDataForDeepFinder.py  # should be instant
 conda activate dfinder # assuming this is the name for the environement
 cp functions/train $(which train) && cp functions/segment $(which segment) && cp functions/cluster $(which cluster)# this is fixing a bug in deepfinder, original files should be found in cryoet-deepfinder/bin 
 train -p DeepFinder/params_train.xml 
