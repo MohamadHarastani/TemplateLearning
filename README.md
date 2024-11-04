@@ -56,7 +56,7 @@ python BinReorderReconstruct.py  # should take a few minutes
 ```
 Validation: look at the folder called "results". It should have tomograms, segmentation maps and coordinates that can be used to train deeplearning models.
 - To use deepfinder in the easiest way, use the Scipion workflow (DeepFinder_Scipion.json) attached to the project. Open Scipion, Project -> Import workflow and just populate the protocols with your simulated and expiremental data!
-- If you wish to use DeepFinder outside of Scipion, install it from [cryoet-deepfinder]([URL](https://github.com/deep-finder/cryoet-deepfinder)) then run the following step:
+- If you wish to use DeepFinder outside of Scipion, install it from `[cryoet-deepfinder] <https://github.com/deep-finder/cryoet-deepfinder>`_ then run the following step:
 ```
 python Step7_prepareDataForDeepFinder.py  # should be instant
 conda activate dfinder # assuming this is the name for the environement
