@@ -60,11 +60,10 @@ Validation: look at the folder called "results". It should have tomograms, segme
 ```
 python step7_prepareDataForDeepFinder.py  # should be instant
 conda activate dfinder # assuming this is the name for the environement
-cp functions/train $(which train) && cp functions/segment $(which segment) && cp functions/cluster $(which cluster)# this is fixing a bug in deepfinder, original files should be found in cryoet-deepfinder/bin 
-train -p DeepFinder/params_train.xml 
+functions/train -p DeepFinder/params_train.xml 
 # applying the trained model to a tomogram
-segment -t path-to/your_tomogram.mrc -w DeepFinder/net_weights_epoch100.h5 -c 2 -p 120 -o path-to/your_tomogram_segmented.mrc
-cluster -l path-to/your_tomogram_segmented.mrc -r 6 -o path_to_coordinates.xml
+functions/segment -t path-to/your_tomogram.mrc -w DeepFinder/net_weights_epoch100.h5 -c 2 -p 120 -o path-to/your_tomogram_segmented.mrc
+functions/cluster -l path-to/your_tomogram_segmented.mrc -r 6 -o path_to_coordinates.xml
 ```
 
 Enjoy, and for any question open a ticket!
