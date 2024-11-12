@@ -379,7 +379,7 @@ dependencies:
       - pyppeteer==1.0.2
       - pyquery==2.0.0
       - python-multem==0.3.4
-      - python-parakeet==0.4.5
+      - python-parakeet==0.4.7
       - pywavelets==1.4.1
       - requests-html==0.10.0
       - scikit-image==0.21.0
