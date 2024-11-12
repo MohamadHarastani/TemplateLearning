@@ -24,7 +24,7 @@ conda update --all
 conda install mamba -c conda-forge
 mamba create -y -n TemplateLearning python=3.9 eman-dev==2.99.47 -c cryoem -c conda-forge
 conda activate TemplateLearning
-pip install ProDy==2.4.1 mrcfile==1.4.3 scikit-image==0.21.0 pyfftw==0.13.1 python-parakeet==0.4.7 h5py==3.8.0 scipy==1.10.1
+pip install ProDy==2.4.1 mrcfile==1.4.3 scikit-image==0.21.0 pyfftw==0.13.1 python-parakeet==0.4.7 h5py==3.8.0 scipy==1.10.1 lxml-html-clean==0.3.0
 
 ```
 ## Short tutorial (a detailed tutorial will be provided soon)
