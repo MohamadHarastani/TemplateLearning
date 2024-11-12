@@ -6,11 +6,12 @@ import itertools
 from functions.create_config import generate_config
 import tqdm
 
-# paramters to set
-dimentions = (4096, 4096, 1024)  # in Angstroms
-phase_plates = True
+############# USER #############
+dimentions = (2056, 2056, 1024)  # in Angstroms
+phase_plates = True # or False if the opposite is required
+PixelSize = 8  # in Angstroms, has to be integer for imod to accept it
 
-# paramters used as variations (here 48 variations)
+# paramters used as variations (should match what was done in step5)
 total_doses = [75, 150]
 tilt_steps = [2, 4]
 start_angles = [-60, -40]
@@ -20,11 +21,15 @@ if phase_plates:
 else:
     defoci = [-2.5, -3.25, -4]
 
+############# CODE #############
+
 # generating configurations from tetrises
 simulation_path_path = 'parakeet'
 output_path = 'vpp'
+
 os.mkdir(output_path)
 tetris_id = 0
+
 for combination in itertools.product(total_doses, tilt_steps, start_angles, ice_densities, defoci):
     tetris_file = 'tetrises/{}/atomic_angposfile.txt'.format(tetris_id)
     total_dose, tilt_step, start_angle, ice_density, defocus = combination
@@ -56,10 +61,6 @@ for simulation in tqdm.tqdm(simulation_list):
     os.chdir(simulation)
     os.system('parakeet.run -c config.yaml -s sample.h5 --steps simulate.optics simulate.image')
     os.chdir(parent_dir)
-
-# replace the old images with the new ones
-# binning pixel size
-PixelSize = 8  # in Angstroms, has to be integer for imod to accept it
 
 simulation_list = glob.glob('vpp/*')
 parent_dir = os.path.abspath(os.curdir)
